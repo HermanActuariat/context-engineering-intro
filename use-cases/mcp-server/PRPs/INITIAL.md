@@ -1,32 +1,50 @@
 ## FEATURE:
 
-We want to create a MCP server using this repos template
-
-The goal of the MCP server is to create a simple version of taskmaster mcp that instead of parsing PRDs we parse PRPs.
+We want to create an MCP server that calculates theoretical prices for US financial assets including stocks, bonds, and options. The server integrates with Yahoo Finance for market data retrieval and implements theoretical pricing models to provide accurate asset valuations for investment analysis and decision-making.
 
 Additional features:
 
-- LLM powered PRP information extraction using anthropic
-- Crud operation on tasks, documentation, tags, etc to and from the DB
-
-We need tools for parsing PRPs this tool should take a filled PRP and use anthropic to extract the tasks into tasks and save them to the db, including surrounding documentation from the prp like the goals what whys, target users, etc.
+- Black-Scholes and binomial options pricing models with full Greeks calculation
+- Bond pricing using yield-to-maturity and present value models with duration and convexity
+- Historical volatility calculation for options pricing inputs
+- Risk-free rate management using current US Treasury rates
+- Real-time and historical market data integration via Yahoo Finance API
+- Symbol validation and options chain data retrieval
 
 We need:
 
-- To be able to perform CRUD operations on tasks, documentation, tags, etc
-- A task fetch tool to get the tasks from the
-- To be able to list all tasks
-- To be able to add information to a task
-- To be able to fetch the additional documentation from the db
-- To be able to modify the additional documentation
-- DB tables needs to be updated to match our new data models
+- To retrieve real-time stock prices and market metrics for US-listed equities
+- To calculate theoretical bond prices with duration and convexity analysis
+- To price options using industry-standard models with complete risk metrics
+- To fetch comprehensive market data with flexible time periods and intervals
+- To access current risk-free rates for accurate pricing model inputs
+- To compute historical volatility for options pricing with configurable methods
+- To validate trading symbols and retrieve detailed asset information
+- To access options chain data with strike prices and implied volatilities
 
 ## EXAMPLES & DOCUMENTATION:
 
 All examples are already referenced in prp_mcp_base.md - do any additional research as needed.
 
-## OTHER CONSIDERATIONS:
+Examples and documentations on financial pricing : https://github.com/lballabio/QuantLib
 
+Additional documentation should reference:
+- Yahoo Finance API integration patterns
+- Black-Scholes model implementation examples
+- Bond pricing calculation methodologies
+- Options Greeks calculation formulas
+
+## OTHER CONSIDERATIONS:
 - Do not use complex regex or complex parsing patterns, we use an LLM to parse PRPs.
-- Model and API key for Anthropic both need to be environment variables - these are set up in .dev.vars.example
-- It's very important that we create one task per file to keep concerns separate
+- all API key need to be environment variables - these are set up in .dev.vars.example
+- Use Yahoo Finance API for all market data retrieval - API key may be required depending on usage limits
+- Implement robust error handling for invalid symbols and market data failures
+- Risk-free rate should default to appropriate Treasury maturity based on option expiration
+- Historical volatility calculations should use logarithmic returns for accuracy
+- Bond pricing should handle both annual and semi-annual coupon payments
+- Options pricing should validate inputs (positive prices, valid dates, reasonable volatility ranges)
+- All financial calculations should maintain precision for currency amounts
+- Market data should be cached appropriately to respect API rate limits
+- Symbol validation should distinguish between different asset types (stocks, ETFs, indices)
+- Time zones should be handled correctly for market hours and data timestamps
+- It's important to create one tool per file to keep financial calculations separate and maintainable
